@@ -24,11 +24,17 @@ module.exports = app
 if (process.env.NODE_ENV !== 'production') require('../secrets')
 
 // passport registration
-passport.serializeUser((user, done) => done(null, user.id))
-passport.deserializeUser((id, done) =>
+passport.serializeUser((user, done) => done(null, user.id)) // make it a string so it can be transmitted or stored concisely -- JSON (string) represents an object
+// object ==> string to be stored on session
+// pro to storing entire object on session? Faster to know who is logged in
+// con?? already stored in DB (redundant, potentially corrupt data)
+
+passport.deserializeUser((id, done) => // 
   db.models.user.findById(id)
-    .then(user => done(null, user))
+    .then(user => done(null, user)) // req.user
     .catch(done))
+// string ==> object
+// touching our db
 
 const createApp = () => {
   // logging middleware
@@ -37,19 +43,21 @@ const createApp = () => {
   // body parsing middleware
   app.use(bodyParser.json())
   app.use(bodyParser.urlencoded({ extended: true }))
+  // now have req.body
 
   // compression middleware
   app.use(compression())
 
   // session middleware with passport
   app.use(session({
-    secret: process.env.SESSION_SECRET || 'my best friend is Cody',
-    store: sessionStore,
-    resave: false,
-    saveUninitialized: false
+    secret: process.env.SESSION_SECRET || 'my best friend is Cody', // unique between consumers
+    store: sessionStore, // where is our store?
+    resave: false, // if nothing has changed with the session don't resave
+    saveUninitialized: false // if we don't add anything once initialized then don't save
   }))
-  app.use(passport.initialize())
-  app.use(passport.session())
+  // req.session
+  app.use(passport.initialize()) // registering passport
+  app.use(passport.session()) // hooks passport into our session. HAS TO COME AFTER SESSION MIDDLEWARE. runs passport.deserialize. now we have a req.user
 
   // auth and api routes
   app.use('/auth', require('./auth'))
