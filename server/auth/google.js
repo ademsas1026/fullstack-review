@@ -35,9 +35,9 @@ if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
     const name = profile.displayName
     const email = profile.emails[0].value
 
-    User.find({where: {googleId}})
+    User.find({where: {googleId}}) // someone logged in locally with their gmail (so no googleId) (user table has email unique), so you will get an error
       .then(foundUser => (foundUser
-        ? done(null, foundUser)
+        ? done(null, foundUser) // invoke serializeUser (obj ==> str)
         : User.create({name, email, googleId})
           .then(createdUser => done(null, createdUser))
       ))
