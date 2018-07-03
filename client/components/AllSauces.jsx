@@ -23,7 +23,6 @@ export default class AllBooks extends Component {
   }
   render() {
     const { sauces } = this.state
-    console.log('rendering all sauces component')
     return (
       <div id="items">
         { sauces.length && sauces.map(sauce => (

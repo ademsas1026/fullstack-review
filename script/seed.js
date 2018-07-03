@@ -18,9 +18,9 @@ async function seed () {
   // executed until that promise resolves!
 
   const books = await Promise.all([
-    Book.create({title: 'Kindred', author: 'Octavia Butler', bookJacket: './assets/Kindred.gif'}),
-    Book.create({title: '1984', author: 'George Orwell', bookJacket: './assets/1984.gif'}), 
-    Book.create({title: 'Americanah', author: 'Chimamanda Ngozi Adichie', bookJacket: './assets/adichie.gif'})
+    Book.create({title: 'Kindred', author: 'Octavia Butler', bookJacket: '/assets/Kindred.gif'}),
+    Book.create({title: '1984', author: 'George Orwell', bookJacket: '/assets/1984.gif'}), 
+    Book.create({title: 'Americanah', author: 'Chimamanda Ngozi Adichie', bookJacket: '/assets/adichie.gif'})
   ])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
@@ -28,9 +28,9 @@ async function seed () {
   console.log(`seeded successfully`)
 
   const sauces = await Promise.all([
-    Sauce.create({name: 'Tabasco', image: './assets/Tabasco.gif'}),
-    Sauce.create({name: 'Franks', image: './assets/Franks.gif'}), 
-    Sauce.create({name: 'Sriracha', image: './assets/Sriracha.gif'})
+    Sauce.create({name: 'Tabasco', image: '/assets/Tabasco.gif'}),
+    Sauce.create({name: 'Franks', image: '/assets/Franks.gif'}), 
+    Sauce.create({name: 'Sriracha', image: '/assets/Sriracha.gif'})
   ])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!

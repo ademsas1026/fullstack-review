@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 
 const Sidebar = () =>  {
     return (
-      <div id="sidebar">å
-        <h1 id="sidebar-title"> 
+      <div id="sidebar">
+        <h1>
           <Link to="/">SL</Link>
         </h1>
         <h2>

@@ -11,3 +11,13 @@ bookRouter.get('/', async (req, res, next) => {
   }
 })
 
+bookRouter.get('/:bookId', async (req, res, next) => {
+  try {
+    const book = await Book.findById(req.params.bookId);
+    res.send(book);
+  } catch (err){
+    next(err)
+  }
+})
+
+
