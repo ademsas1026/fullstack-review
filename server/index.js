@@ -2,39 +2,11 @@ const path = require('path')
 const express = require('express')
 const morgan = require('morgan')
 const bodyParser = require('body-parser')
-const compression = require('compression')
-const session = require('express-session')
-const passport = require('passport')
-const SequelizeStore = require('connect-session-sequelize')(session.Store)
-const db = require('./db')
-const sessionStore = new SequelizeStore({db})
+const { db } = require('./db')
 const PORT = process.env.PORT || 8080
 const app = express()
-const socketio = require('socket.io')
+
 module.exports = app
-
-/**
- * In your development environment, you can keep all of your
- * app's secret API keys in a file called `secrets.js`, in your project
- * root. This file is included in the .gitignore - it will NOT be tracked
- * or show up on Github. On your production server, you can add these
- * keys as environment variables, so that they can still be read by the
- * Node process on process.env
- */
-if (process.env.NODE_ENV !== 'production') require('../secrets')
-
-// passport registration
-passport.serializeUser((user, done) => done(null, user.id)) // make it a string so it can be transmitted or stored concisely -- JSON (string) represents an object
-// object ==> string to be stored on session
-// pro to storing entire object on session? Faster to know who is logged in
-// con?? already stored in DB (redundant, potentially corrupt data)
-
-passport.deserializeUser((id, done) => // 
-  db.models.user.findById(id)
-    .then(user => done(null, user)) // req.user
-    .catch(done))
-// string ==> object
-// touching our db
 
 const createApp = () => {
   // logging middleware
@@ -45,22 +17,6 @@ const createApp = () => {
   app.use(bodyParser.urlencoded({ extended: true }))
   // now have req.body
 
-  // compression middleware
-  app.use(compression())
-
-  // session middleware with passport
-  app.use(session({
-    secret: process.env.SESSION_SECRET || 'my best friend is Cody', // unique between consumers
-    store: sessionStore, // where is our store?
-    resave: false, // if nothing has changed with the session don't resave
-    saveUninitialized: false // if we don't add anything once initialized then don't save
-  }))
-  // req.session
-  app.use(passport.initialize()) // registering passport
-  app.use(passport.session()) // hooks passport into our session. HAS TO COME AFTER SESSION MIDDLEWARE. runs passport.deserialize. now we have a req.user
-
-  // auth and api routes
-  app.use('/auth', require('./auth'))
   app.use('/api', require('./api'))
 
   // static file-serving middleware
@@ -92,11 +48,8 @@ const createApp = () => {
 
 const startListening = () => {
   // start listening (and create a 'server' object representing our server)
-  const server = app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
+  app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`))
 
-  // set up our socket control center
-  const io = socketio(server)
-  require('./socket')(io)
 }
 
 const syncDb = () => db.sync()
@@ -106,8 +59,7 @@ const syncDb = () => db.sync()
 // It will evaluate false when this module is required by another module - for example,
 // if we wanted to require our app in a test spec
 if (require.main === module) {
-  sessionStore.sync()
-    .then(syncDb)
+  syncDb()
     .then(createApp)
     .then(startListening)
 } else {

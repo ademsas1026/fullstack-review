@@ -1,19 +1,23 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import {Provider} from 'react-redux'
-import {Router} from 'react-router-dom'
+import {Router, Route, Switch} from 'react-router-dom'
 import history from './history'
-import store from './store'
-import App from './app'
-
-// establishes socket connection
-import './socket'
+import { Sidebar, AllBooks, AllSauces, Home } from './components'
 
 ReactDOM.render(
-  <Provider store={store}>
     <Router history={history}>
-      <App />
-    </Router>
-  </Provider>,
+      <div id="main" className="container-fluid">
+        <div className="col-xs-2">
+          <Sidebar />
+        </div>
+        <div className="col-xs-10" id="content">
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/books" component={AllBooks} />
+            <Route exact path="/sauces" component={AllSauces} />
+          </Switch>
+        </div>
+      </div>
+    </Router>,
   document.getElementById('app')
 )

@@ -9,8 +9,7 @@
  *
  * Now that you've got the main idea, check it out in practice below!
  */
-const db = require('../server/db')
-const {User} = require('../server/db/models')
+const { db, Book, Sauce } = require('../server/db')
 
 async function seed () {
   await db.sync({force: true})
@@ -18,14 +17,26 @@ async function seed () {
   // Whoa! Because we `await` the promise that db.sync returns, the next line will not be
   // executed until that promise resolves!
 
-  const users = await Promise.all([
-    User.create({email: 'cody@email.com', password: '123'}),
-    User.create({email: 'murphy@email.com', password: '123'})
+  const books = await Promise.all([
+    Book.create({title: 'Kindred', author: 'Octavia Butler', bookJacket: './assets/Kindred.gif'}),
+    Book.create({title: '1984', author: 'George Orwell', bookJacket: './assets/1984.gif'}), 
+    Book.create({title: 'Americanah', author: 'Chimamanda Ngozi Adichie', bookJacket: './assets/adichie.gif'})
   ])
   // Wowzers! We can even `await` on the right-hand side of the assignment operator
   // and store the result that the promise resolves to in a variable! This is nice!
-  console.log(`seeded ${users.length} users`)
+  console.log(`seeded ${books.length} books`)
   console.log(`seeded successfully`)
+
+  const sauces = await Promise.all([
+    Sauce.create({name: 'Tabasco', image: './assets/Tabasco.gif'}),
+    Sauce.create({name: 'Franks', image: './assets/Franks.gif'}), 
+    Sauce.create({name: 'Sriracha', image: './assets/Sriracha.gif'})
+  ])
+  // Wowzers! We can even `await` on the right-hand side of the assignment operator
+  // and store the result that the promise resolves to in a variable! This is nice!
+  console.log(`seeded ${sauces.length} sauces`)
+  console.log(`seeded successfully`)
+
 }
 
 // Execute the `seed` function
