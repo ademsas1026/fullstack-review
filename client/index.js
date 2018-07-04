@@ -6,9 +6,9 @@ import { Sidebar, AllBooks, AllSauces, Home, Sauce, Book } from './components'
 
 ReactDOM.render(
     <Router history={history}>
-      <div id="main" className="container-fluid">
+      <div>
         <Sidebar />
-        <div className="col-xs-10" id="content">
+        <div>
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/books" component={AllBooks} />
