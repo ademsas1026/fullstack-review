@@ -3,15 +3,17 @@ const db = require('../db')
 
 const Book = db.define('books', {
   title: {
-    type: Sequelize.STRING,
-    allowNull: false
-  },
+    type: Sequelize.STRING, 
+    validate: {
+      notEmpty: true
+    }
+  }, 
   author: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING, 
     allowNull: false
-  },
+  }, 
   bookJacket: {
-    type: Sequelize.STRING,
+    type: Sequelize.STRING, 
     allowNull: false
   }
 })
