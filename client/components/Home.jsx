@@ -1,7 +1,8 @@
 import React from 'react'
-import { Typography } from '@material-ui/core'
+// import { Typography } from '@material-ui/core'
 
-const Home = () => {
+const Home = props => {
+  console.log('this is props in home', props)
     return (
       <div id="home">
         <h1>Spicy Libros</h1>

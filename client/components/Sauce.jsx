@@ -2,6 +2,12 @@ import React, { Component } from 'react'
 import axios from 'axios'
 import { Typography } from '@material-ui/core'
 
+const styles = {
+  sauce: {
+    display: 'flex'
+  }
+}
+
 export default class Sauce extends Component {
   constructor(){
     super()
@@ -24,9 +30,16 @@ export default class Sauce extends Component {
     const { selectedSauce } = this.state
     console.log('this.props', this.props)
     return (
-      <div className="item">
+      <div className="item" style={styles.sauce}>
         <Typography variant="headline" style={{color: 'slategrey', marginBottom: '0.5em', marginLeft: '1em'}}>{selectedSauce.name}</Typography>
         <img src={selectedSauce.image} alt={selectedSauce.name}/>
+        <Form
+          handleSubmit={this.handleSubmit}
+          handleChange={this.handleChange}
+          title={title}
+          author={author}
+          bookJacket={bookJacket}
+        />
       </div>
     )
   }

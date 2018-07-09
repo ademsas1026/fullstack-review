@@ -6,9 +6,14 @@ import { Sidebar, AllBooks, AllSauces, Home, Sauce, Book } from './components'
 
 import './socket'
 
+const styles = {
+  everything: {
+    display: 'flex'
+  }
+}
 ReactDOM.render(
     <Router history={history}>
-      <div>
+      <div style={styles.everything}>
         <Sidebar />
         <div>
           <Switch>
