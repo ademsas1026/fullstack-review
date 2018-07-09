@@ -4,6 +4,8 @@ import {Router, Route, Switch} from 'react-router-dom'
 import history from './history'
 import { Sidebar, AllBooks, AllSauces, Home, Sauce, Book } from './components'
 
+import './socket'
+
 ReactDOM.render(
     <Router history={history}>
       <div>
