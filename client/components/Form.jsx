@@ -22,7 +22,7 @@ export default Form
 
 /* disabled prop on submit button: we don't want to send an update to the server if the user hasn't typed anything inside any of the input fields.
   By passing that conditional statement (!props.title && !props.author && !props.bookJacket) to the disabled prop, we're saying don't enable anybody 
-  to submit this form if any of those fields are blank
+  to submit this form if all of those fields are blank
   (remember an empty string evaluates to falsy!
     '' == false => true
   )
